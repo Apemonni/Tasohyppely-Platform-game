@@ -10,7 +10,7 @@ class Map:
     
     def __init__(self):
         
-        file = open("kentta1", "r")
+        file = open("kentta1.txt", "r")
         self.squares = [[int(n) for n in line.split()] for line in file] 
         self.map = len(self.squares) * [None]
         a = 0

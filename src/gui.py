@@ -4,6 +4,8 @@ Created on Mar 22, 2019
 @author: aapolinjama
 '''
 from player import Player
+from map import Map
+from square_graphics import SquareGraphs
 import sys
 from PyQt5.QtCore import (
     QBasicTimer
@@ -30,46 +32,34 @@ class GUI(QtWidgets.QMainWindow):
         '''
         Sets up the window.
         '''
-        self.setGeometry(300, 300, 800, 800)
+        self.setGeometry(300, 300, 900, 1000)
         self.setWindowTitle('Tasohyppely')
         self.show()
 
         # Add a scene for drawing 2d objects
         self.scene = QtWidgets.QGraphicsScene()
-        self.scene.setSceneRect(0, 0, 700, 700)
+        self.scene.setSceneRect(0, 0, 750, 750)
 
         # Add a view for showing the scene
         self.view = QtWidgets.QGraphicsView(self.scene, self)
         self.view.adjustSize()
         self.view.show()
         self.horizontal.addWidget(self.view)
-        a = 0
-        b = 0
+        self.graph = SquareGraphs()
+        self.graphSquares = self.graph.create_square_graphs()
+        self.map = Map()
         
-        map = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-               [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1], [0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1], 
-               [1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]]
-        for i in map:
-            for j in i:
-                squar = QGraphicsRectItem(b*50, a*50, 50, 50)
-                if j == 0:
-                    color = QColor(20,20,20)
-                    brush = QBrush(color)
-                    squar.setBrush(brush)
-                    self.scene.addItem(squar)
-                    b += 1
-                else:
-                    color = QColor(211,211,211)
-                    brush = QBrush(color)
-                    squar.setBrush(brush)
-                    self.scene.addItem(squar)
-                    b += 1
-            a += 1
-            b = 0
+        for i in range(self.map.get_height()):
+            for j in range(self.map.get_width()):
+                self.scene.addItem(self.graphSquares[i][j])
+        
         self.player = Player()
         self.player.setPos((450-self.player.pixmap().width())/2,
                            (600-self.player.pixmap().height())/2)
         self.scene.addItem(self.player)
+        
+    def get_graphSquares(self):
+        return self.graphSquares
         
     def keyPressEvent(self, event):
         self.keys_pressed.add(event.key())
@@ -79,7 +69,7 @@ class GUI(QtWidgets.QMainWindow):
 
     def timerEvent(self, event):
         self.game_update()
-        #self.update()
+        self.update()
     
     def game_update(self):
         self.player.game_update(self.keys_pressed)

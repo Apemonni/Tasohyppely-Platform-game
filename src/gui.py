@@ -11,7 +11,7 @@ from PyQt5.QtCore import (
     QBasicTimer
 )
 from PyQt5 import QtWidgets
-from PyQt5.Qt import  QGraphicsRectItem, QBrush, QColor
+from PyQt5.Qt import  QGraphicsRectItem, QBrush, QColor, QLabel, QFont, QWidget, QVBoxLayout
 
 
 class GUI(QtWidgets.QMainWindow):
@@ -28,13 +28,14 @@ class GUI(QtWidgets.QMainWindow):
         
         self.setCentralWidget(QtWidgets.QWidget()) # QMainWindown must have a centralWidget to be able to add layouts
         self.horizontal = QtWidgets.QHBoxLayout() # Horizontal main layout
+        
         self.centralWidget().setLayout(self.horizontal)
         '''
         Sets up the window.
         '''
         self.setGeometry(300, 300, 900, 1000)
         self.setWindowTitle('Tasohyppely')
-        self.show()
+        self.showFullScreen()
 
         # Add a scene for drawing 2d objects
         self.scene = QtWidgets.QGraphicsScene()
@@ -52,11 +53,14 @@ class GUI(QtWidgets.QMainWindow):
         for i in range(self.map.get_height()):
             for j in range(self.map.get_width()):
                 self.scene.addItem(self.graphSquares[i][j])
-        
+                
         self.player = Player()
-        self.player.setPos((450-self.player.pixmap().width())/2,
-                           (600-self.player.pixmap().height())/2)
+        self.player.setPos((100-self.player.pixmap().width())/2,
+                           (1000-self.player.pixmap().height())/2)
         self.scene.addItem(self.player)
+        self.draw = 0
+    
+            
         
     def get_graphSquares(self):
         return self.graphSquares
@@ -68,6 +72,15 @@ class GUI(QtWidgets.QMainWindow):
         self.keys_pressed.remove(event.key())
 
     def timerEvent(self, event):
+        
+        if self.player.has_won() and self.draw == 0:
+            l = QLabel()
+            l.setText("You Won!")
+            a = QFont("Arial", 40, QFont.Bold)
+            l.setFont(a)
+            self.horizontal.addWidget(l)
+            self.draw += 1
+            
         self.game_update()
         self.update()
     

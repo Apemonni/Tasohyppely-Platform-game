@@ -48,13 +48,14 @@ class Player(QGraphicsPixmapItem):
                 self.setPos((100-self.pixmap().width())/2,
                            (1000-self.pixmap().height())/2)
         
-        if Qt.Key_A in keys_pressed and self.can_moveleft():
+        if Qt.Key_A in keys_pressed and self.can_moveleft() and self.check_left_boundary():
             dx -= 3
                     
-        if Qt.Key_D in keys_pressed and self.can_moveright():
-            dx += 3
+        if Qt.Key_D in keys_pressed and self.check_right_boundary():
+            if self.can_moveright():
+                dx += 3
             
-        if Qt.Key_W in keys_pressed and self.jump() and self.can_jump:
+        if Qt.Key_W in keys_pressed and self.jump() and self.can_jump and self.check_up_boundary():
             self.jumping = 90
             self.can_jump = False
             dy -= 25
@@ -70,6 +71,7 @@ class Player(QGraphicsPixmapItem):
             
         print(self.y())
         print(self.x())
+            
         self.location = Coordinates(self.x()+dx, self.y()+dy)
         self.setPos(self.location.get_x(), self.location.get_y())
         
@@ -150,8 +152,25 @@ class Player(QGraphicsPixmapItem):
         if int(self.x()//50) == 0 and int(self.y()//50) == 1:
             self.won = True
             
+    def check_left_boundary(self):
+        
+        player_loc_left = (self.x()-3)//50
+        if not int(player_loc_left) < 0:
+            return True 
+        
+        
             
-            
+    def check_right_boundary(self):
+        
+        player_loc_right = (self.x()+40)//50
+        if not int(player_loc_right) > self.map.get_width() -1:
+            return True 
+                
+    def check_up_boundary(self):
+
+        player_loc_up = (self.y()-3)//50
+        if not int(player_loc_up) < 0:
+            return True         
         
         
         

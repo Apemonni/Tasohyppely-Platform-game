@@ -14,5 +14,3 @@ if __name__ == '__main__':
     gui = GUI()
     sys.exit(app.exec_())
                 
-                
-                

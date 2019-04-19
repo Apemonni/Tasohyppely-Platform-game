@@ -7,6 +7,7 @@ from player import Player
 from map import Map
 from square_graphics import SquareGraphs
 import sys
+from enemy import Enemy
 from PyQt5.QtCore import (
     QBasicTimer
 )
@@ -58,7 +59,19 @@ class GUI(QtWidgets.QMainWindow):
         self.player.setPos((100-self.player.pixmap().width())/2,
                            (1000-self.player.pixmap().height())/2)
         self.scene.addItem(self.player)
-        self.draw = 0
+        self.enemy = Enemy()
+        self.enemy.setPos(150, 450)
+        self.scene.addItem(self.enemy)
+        self.enemy2 = Enemy()
+        self.enemy2.setPos(600, 250)
+        self.scene.addItem(self.enemy2)
+        self.enemy3 = Enemy()
+        self.enemy3.setPos(100,150)
+        self.scene.addItem(self.enemy3)
+        self.text = QLabel()
+        self.text.setText("You Won!")
+        a = QFont("Arial", 40, QFont.Bold)
+        self.text.setFont(a)
     
             
         
@@ -72,17 +85,36 @@ class GUI(QtWidgets.QMainWindow):
         self.keys_pressed.remove(event.key())
 
     def timerEvent(self, event):
-        
-        if self.player.has_won() and self.draw == 0:
-            l = QLabel()
-            l.setText("You Won!")
-            a = QFont("Arial", 40, QFont.Bold)
-            l.setFont(a)
-            self.horizontal.addWidget(l)
-            self.draw += 1
-            
+          
         self.game_update()
+        if self.player.has_won():
+            
+            self.horizontal.addWidget(self.text)
+            self.draw_won = 1
+            print("naa")
+
+            
+            
+        if self.player.get_draw_won() == 1:
+            
+            print("moi")
+            self.horizontal.removeWidget(self.text)
+            self.text.deleteLater()
+            self.text = None
+            self.player.add_draw_won()
+            self.reset_won()
+            
+        self.enemy.enemy_update()
+        self.enemy2.enemy_update()
+        self.enemy3.enemy_update()
         self.update()
+    
+    def reset_won(self):
+        self.text = QLabel()
+        self.text.setText("You Won!")
+        a = QFont("Arial", 40, QFont.Bold)
+        self.text.setFont(a)
+        
     
     def game_update(self):
         self.player.game_update(self.keys_pressed)

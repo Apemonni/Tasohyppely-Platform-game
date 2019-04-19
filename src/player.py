@@ -33,6 +33,7 @@ class Player(QGraphicsPixmapItem):
         self.dead = False 
         self.map = Map()
         self.won_count = 100
+        self.draw_won = 100
         
     
     def game_update(self, keys_pressed):
@@ -43,10 +44,12 @@ class Player(QGraphicsPixmapItem):
         self.check_if_won()
         if self.won:
             self.won_count -= 1
-            if self.won_count <= 1:
+            self.draw_won -= 1
+            if self.won_count == 1:
                 self.won = False
                 self.setPos((100-self.pixmap().width())/2,
                            (1000-self.pixmap().height())/2)
+                self.won_count = 100
         
         if Qt.Key_A in keys_pressed and self.can_moveleft() and self.check_left_boundary():
             dx -= 3
@@ -55,10 +58,11 @@ class Player(QGraphicsPixmapItem):
             if self.can_moveright():
                 dx += 3
             
-        if Qt.Key_W in keys_pressed and self.jump() and self.can_jump and self.check_up_boundary():
-            self.jumping = 90
-            self.can_jump = False
-            dy -= 25
+        if Qt.Key_W in keys_pressed and self.check_up_boundary() and self.check_right_boundary() and self.check_left_boundary():
+            if self.jump() and self.can_jump:
+                self.jumping = 90
+                self.can_jump = False
+                dy -= 25
             
         """if Qt.Key_S in keys_pressed:
             dy += 3"""
@@ -69,14 +73,21 @@ class Player(QGraphicsPixmapItem):
             dy -= 3
             
             
-        print(self.y())
-        print(self.x())
+        #print(self.y())
+        #print(self.x())
             
         self.location = Coordinates(self.x()+dx, self.y()+dy)
         self.setPos(self.location.get_x(), self.location.get_y())
         
+    def get_won_count(self):
+        return self.won_count    
+    
+    def get_draw_won(self):
+        return self.draw_won
+    
+    def add_draw_won(self):
         
-        
+        self.draw_won = 100
             
     def can_moveright(self):
         map = self.map.get_map()
@@ -87,8 +98,7 @@ class Player(QGraphicsPixmapItem):
             loc_y += 1
             if map[int(loc_y)-1][int(player_loc_right)].is_obstacle:
                 loc_y -= 1
-            
-        print(player_loc_right)
+                
         if not map[int(loc_y)][int(player_loc_right)].is_obstacle:
             return True
         else:
@@ -104,7 +114,6 @@ class Player(QGraphicsPixmapItem):
             if map[int(loc_y)-1][int(player_loc_left)].is_obstacle:
                 loc_y -= 1
         #player_loc_up = (self.y())
-        print(player_loc_left)
         if not map[int(loc_y)][int(player_loc_left)].is_obstacle:
             return True
         else:
@@ -151,6 +160,8 @@ class Player(QGraphicsPixmapItem):
         map = self.map.get_map()
         if int(self.x()//50) == 0 and int(self.y()//50) == 1:
             self.won = True
+        else:
+            self.won = False
             
     def check_left_boundary(self):
         

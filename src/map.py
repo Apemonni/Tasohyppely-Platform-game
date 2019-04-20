@@ -25,8 +25,8 @@ class Map:
                     self.map[a][b] = Square(True)
                     b += 1
             a += 1
-            b = 0       
-                    
+            b = 0  
+                
     
     def get_squares(self):
         return self.squares

@@ -7,6 +7,7 @@ import sys
 from map import Map
 from square_graphics import SquareGraphs
 from coordinates import Coordinates
+from enemy_container import Enemy_container
 from PyQt5.QtCore import (
     Qt,
 )
@@ -30,10 +31,12 @@ class Player(QGraphicsPixmapItem):
         self.jumping = 0
         self.can_jump = True
         self.won = False
-        self.dead = False 
+        self.loss = False 
         self.map = Map()
         self.won_count = 100
         self.draw_won = 100
+        self.loss_count = 2
+        self.draw_loss = 100
         
     
     def game_update(self, keys_pressed):
@@ -47,10 +50,19 @@ class Player(QGraphicsPixmapItem):
             self.draw_won -= 1
             if self.won_count == 1:
                 self.won = False
-                self.setPos((100-self.pixmap().width())/2,
-                           (1000-self.pixmap().height())/2)
+                self.setPos(3,650)
                 self.won_count = 100
         
+        
+        if self.loss:
+            self.loss_count -= 1
+            self.draw_loss -= 1
+            if self.loss_count == 1:
+                self.loss = False
+                self.setPos(3,650)
+                self.loss_count = 2
+                
+
         if Qt.Key_A in keys_pressed and self.can_moveleft() and self.check_left_boundary():
             dx -= 3
                     
@@ -84,6 +96,13 @@ class Player(QGraphicsPixmapItem):
     
     def get_draw_won(self):
         return self.draw_won
+    
+    def get_draw_loss(self):
+        return self.draw_loss
+    
+    def add_draw_loss(self):
+        
+        self.draw_loss = 30
     
     def add_draw_won(self):
         
@@ -181,7 +200,20 @@ class Player(QGraphicsPixmapItem):
 
         player_loc_up = (self.y()-3)//50
         if not int(player_loc_up) < 0:
-            return True         
+            return True     
+        
+    
+    def check_if_coll_enemy(self, enemy_container):
+        for i in enemy_container:
+            if self.collidesWithItem(i):
+                self.loss = True
+                return
+        
+        self.loss=False
+        
+    def has_lost(self):
+        return self.loss
+        
         
         
         

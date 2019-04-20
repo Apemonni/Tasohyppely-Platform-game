@@ -4,6 +4,7 @@ Created on Mar 22, 2019
 @author: aapolinjama
 '''
 from player import Player
+from enemy_container import Enemy_container
 from map import Map
 from square_graphics import SquareGraphs
 import sys
@@ -56,22 +57,33 @@ class GUI(QtWidgets.QMainWindow):
                 self.scene.addItem(self.graphSquares[i][j])
                 
         self.player = Player()
-        self.player.setPos((100-self.player.pixmap().width())/2,
-                           (1000-self.player.pixmap().height())/2)
+        self.player.setPos(3, 650)
         self.scene.addItem(self.player)
+        self.enemy_container = Enemy_container()
         self.enemy = Enemy()
         self.enemy.setPos(150, 450)
         self.scene.addItem(self.enemy)
+        self.enemy_container.add_enemy(self.enemy)
         self.enemy2 = Enemy()
         self.enemy2.setPos(600, 250)
         self.scene.addItem(self.enemy2)
+        self.enemy_container.add_enemy(self.enemy2)
         self.enemy3 = Enemy()
         self.enemy3.setPos(100,150)
         self.scene.addItem(self.enemy3)
+        self.enemy_container.add_enemy(self.enemy3)
+        self.enemies = self.enemy_container.get_enemies()
         self.text = QLabel()
         self.text.setText("You Won!")
         a = QFont("Arial", 40, QFont.Bold)
         self.text.setFont(a)
+        
+        self.text1 = QLabel()
+        self.text1.setText("You Lost!")
+        a = QFont("Arial", 40, QFont.Bold)
+        self.text1.setFont(a)
+        self.draw_loss = 250
+        self.a = 0
     
             
         
@@ -85,24 +97,43 @@ class GUI(QtWidgets.QMainWindow):
         self.keys_pressed.remove(event.key())
 
     def timerEvent(self, event):
-          
+        
         self.game_update()
         if self.player.has_won():
             
             self.horizontal.addWidget(self.text)
             self.draw_won = 1
-            print("naa")
 
             
             
         if self.player.get_draw_won() == 1:
             
-            print("moi")
             self.horizontal.removeWidget(self.text)
             self.text.deleteLater()
             self.text = None
             self.player.add_draw_won()
             self.reset_won()
+            
+        self.player.check_if_coll_enemy(self.enemies)
+        if self.player.has_lost():
+            self.a = 1
+            self.horizontal.addWidget(self.text1)
+        if self.a == 1 and self.draw_loss > 1:
+            self.draw_loss -= 1
+            
+            
+        if self.draw_loss == 1:
+            self.horizontal.removeWidget(self.text1)
+            self.text1.deleteLater()
+            self.text1 = None
+            self.player.add_draw_loss()
+            self.reset_loss()
+            self.a = 0
+            self.draw_loss = 250
+            
+            
+        
+    
             
         self.enemy.enemy_update()
         self.enemy2.enemy_update()
@@ -114,6 +145,12 @@ class GUI(QtWidgets.QMainWindow):
         self.text.setText("You Won!")
         a = QFont("Arial", 40, QFont.Bold)
         self.text.setFont(a)
+        
+    def reset_loss(self):
+        self.text1 = QLabel()
+        self.text1.setText("You Lost!")
+        a = QFont("Arial", 40, QFont.Bold)
+        self.text1.setFont(a)
         
     
     def game_update(self):

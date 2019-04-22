@@ -24,7 +24,7 @@ class Player(QGraphicsPixmapItem):
         self.won = False
         self.loss = False 
         self.map = Map()
-        self.won_count = 100
+        self.won_count = 50
         self.draw_won = 100
         self.loss_count = 2
         self.draw_loss = 100
@@ -42,7 +42,7 @@ class Player(QGraphicsPixmapItem):
             if self.won_count == 1:
                 self.won = False
                 self.setPos(53,700)
-                self.won_count = 100
+                self.won_count = 50
         
         
         if self.loss:

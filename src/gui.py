@@ -41,7 +41,7 @@ class GUI(QtWidgets.QMainWindow):
 
         # Add a scene for drawing 2d objects
         self.scene = QtWidgets.QGraphicsScene()
-        self.scene.setSceneRect(0, 0, 750, 750)
+        self.scene.setSceneRect(0, 0, 800, 800)
 
         # Add a view for showing the scene
         self.view = QtWidgets.QGraphicsView(self.scene, self)
@@ -57,19 +57,19 @@ class GUI(QtWidgets.QMainWindow):
                 self.scene.addItem(self.graphSquares[i][j])
                 
         self.player = Player()
-        self.player.setPos(3, 650)
+        self.player.setPos(53, 700)
         self.scene.addItem(self.player)
         self.enemy_container = Enemy_container()
         self.enemy = Enemy()
-        self.enemy.setPos(150, 450)
+        self.enemy.setPos(200, 500)
         self.scene.addItem(self.enemy)
         self.enemy_container.add_enemy(self.enemy)
         self.enemy2 = Enemy()
-        self.enemy2.setPos(600, 250)
+        self.enemy2.setPos(650, 300)
         self.scene.addItem(self.enemy2)
         self.enemy_container.add_enemy(self.enemy2)
         self.enemy3 = Enemy()
-        self.enemy3.setPos(100,150)
+        self.enemy3.setPos(150,200)
         self.scene.addItem(self.enemy3)
         self.enemy_container.add_enemy(self.enemy3)
         self.enemies = self.enemy_container.get_enemies()
@@ -78,7 +78,7 @@ class GUI(QtWidgets.QMainWindow):
         a = QFont("Arial", 40, QFont.Bold)
         self.text.setFont(a)
         
-        self.text1 = QLabel()
+        self.text1 = QLabel(self.centralWidget())
         self.text1.setText("You Lost!")
         a = QFont("Arial", 40, QFont.Bold)
         self.text1.setFont(a)
@@ -143,13 +143,13 @@ class GUI(QtWidgets.QMainWindow):
     def reset_won(self):
         self.text = QLabel()
         self.text.setText("You Won!")
-        a = QFont("Arial", 40, QFont.Bold)
+        a = QFont("Arial", 35, QFont.Bold)
         self.text.setFont(a)
         
     def reset_loss(self):
         self.text1 = QLabel()
         self.text1.setText("You Lost!")
-        a = QFont("Arial", 40, QFont.Bold)
+        a = QFont("Arial", 35, QFont.Bold)
         self.text1.setFont(a)
         
     

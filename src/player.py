@@ -5,9 +5,6 @@ Created on Mar 19, 2019
 '''
 import sys
 from map import Map
-from square_graphics import SquareGraphs
-from coordinates import Coordinates
-from enemy_container import Enemy_container
 from PyQt5.QtCore import (
     Qt,
 )
@@ -21,13 +18,7 @@ from PyQt5.QtWidgets import (
 class Player(QGraphicsPixmapItem):
     def __init__(self, parent = None):
         QGraphicsPixmapItem.__init__(self,parent)
-        self.setPixmap(QPixmap("frame-111.png"))
-        self.collides = False
-        self.moveright = True
-        self.moveleft = True
-        self.moveUp = True
-        self.moveDown = True
-        self.location = Coordinates(self.x(), self.y()) 
+        self.setPixmap(QPixmap("frame-111.png")) 
         self.jumping = 0
         self.can_jump = True
         self.won = False
@@ -50,7 +41,7 @@ class Player(QGraphicsPixmapItem):
             self.draw_won -= 1
             if self.won_count == 1:
                 self.won = False
-                self.setPos(3,650)
+                self.setPos(53,700)
                 self.won_count = 100
         
         
@@ -59,7 +50,7 @@ class Player(QGraphicsPixmapItem):
             self.draw_loss -= 1
             if self.loss_count == 1:
                 self.loss = False
-                self.setPos(3,650)
+                self.setPos(53,700)
                 self.loss_count = 2
                 
 
@@ -76,20 +67,16 @@ class Player(QGraphicsPixmapItem):
                 self.can_jump = False
                 dy -= 25
             
-        """if Qt.Key_S in keys_pressed:
-            dy += 3"""
         if self.fall():
             dy += 3
             
         if not self.fall() and self.jumping > 0:
             dy -= 3
             
+
             
-        #print(self.y())
-        #print(self.x())
-            
-        self.location = Coordinates(self.x()+dx, self.y()+dy)
-        self.setPos(self.location.get_x(), self.location.get_y())
+        
+        self.setPos(self.x() + dx, self.y() + dy)
         
     def get_won_count(self):
         return self.won_count    
@@ -142,7 +129,7 @@ class Player(QGraphicsPixmapItem):
         map = self.map.get_map()
         player_loc_left = (self.x()-3)//50
         player_loc_right = (self.x()+40)//50
-        loc_y = self.y()//50
+        loc_y = (self.y()-15)//50
         if self.jumping == 0:
             if not map[int(loc_y+1)][int(player_loc_left)].is_obstacle and not map[int(loc_y+1)][int(player_loc_right)].is_obstacle:
                 return True
@@ -166,7 +153,6 @@ class Player(QGraphicsPixmapItem):
         player_loc_right = (self.x()+40)//50
         
         if not map[int(player_loc_up)][int(player_loc_left)].is_obstacle and not map[int(player_loc_up)][int(player_loc_right)].is_obstacle:
-            self.can_jumping = True
             return True
         else:
             return False
@@ -177,7 +163,7 @@ class Player(QGraphicsPixmapItem):
             
     def check_if_won(self):
         map = self.map.get_map()
-        if int(self.x()//50) == 0 and int(self.y()//50) == 1:
+        if int(self.x()//50) == 1 and int(self.y()//50) == 2:
             self.won = True
         else:
             self.won = False

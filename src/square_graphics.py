@@ -20,7 +20,12 @@ class SquareGraphs:
             self.graphSquares[i] = [None] * self.map.get_width()
             for j in range(self.map.get_width()):
                 squar = QGraphicsRectItem(b*50, a*50, 50, 50)
-                if not self.objects[i][j].is_obstacle:
+                if a == 2 and b == 1:
+                    color = QColor(124,252,0)
+                    brush = QBrush(color)
+                    squar.setBrush(brush)
+                    b += 1
+                elif not self.objects[i][j].is_obstacle:
                     color = QColor(20,20,20)
                     brush = QBrush(color)
                     squar.setBrush(brush)

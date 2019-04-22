@@ -1,11 +1,13 @@
-1.
-Graafinen käyttöliittymä on saatu alkuun, lisäksi pelihahmo saadaan jo liikkumaan. Pelihahmolle on saatu ladattua filestä graafinen objekti. Pelihahmo on GraphicsPixmap-olio. Pelikenttä luetaan kaksiulotteisesta listasta, jonka perusteella neliöt värjätään kentässä.
+# Tasohyppely
 
-2.
-Ohejelman voi ajaa main.py-tiedostosta käsin. Eli ajetaan normaalisti main-tiedosto jolloin ikkunan pitäisi aueta ja pelikentän ja -hahmon tulla näkyviin. Tässä vaiheessa hahmoa voi liikuttaa käyttämällä näppäimiä a, s, d, ja w.
+## Esittely
+ Tasohyppelypeli, jossa pelaaja ohjaa hahmoa kentän läpi hyppimällä tasojen päälle. Peli on toteutettu niin, että koko kenttä näkyy alusta asti näytöllä ja tavoitteena on päästä ylös vihreään maaliruutuun. 
 
-3. 
-Aikaa olen käyttänyt tässä vaiheessa n.10h, joka on jäljessä tavoitteestani jonka kirjasin suunnitelmaan, mutta onneksi olen saanut jo melko paljon projektia etenemään.
+## Tiedosto- ja kansiorakenne
+Src-kansiosta löytyy kaikki tiedostot, joita tarvitaan ohjelman ajamiseeen. Juurihakemistosta löytyy README sekä suunnitelmat
 
-4.
-Erityisiä ongelmia ei ole ilmaantunut. Qt-kirjasto on toisinaan tosin vaikeaselkoinen, mutta yleensä internetistä löytää ratkaisun ongelmiin. En ole joutunut tekemään suurempia muutoksia suunnitelmaani.
+## Asennusohje
+PyQt-kirjasto on ainut ulkopuolinen kirjasto.
+
+## Käyttöohje
+Main-tiedosto ajetaan src-kansiossa, jolloin peli-ikkunan pitäisi aueta.

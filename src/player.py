@@ -186,7 +186,7 @@ class Player(QGraphicsPixmapItem):
 
         player_loc_up = (self.y()-3)//50
         if not int(player_loc_up) < 0:
-            return True     
+            return True
         
     
     def check_if_coll_enemy(self, enemy_container):

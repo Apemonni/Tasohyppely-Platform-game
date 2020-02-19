@@ -1,4 +1,5 @@
 # Platform game
+![Game picture](https://github.com/Apemonni/Tasohyppely-Platform-game/blob/master/GamePic.png)
 
 ## Introduction
 A platform game in which player controls the game character through the game by jumping to the planes and avoiding enemies. The game is implemented so that the whole game area is visible from the start. The goal of the game is to reach the green square at the top of the game area.

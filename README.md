@@ -1,4 +1,4 @@
-# Platform game (Indivual project)
+# Platform game (Individual project)
 Final report in Finnish can be seen [here](https://github.com/Apemonni/Tasohyppely-Platform-game/blob/master/Y2projektidokumentaatio.pdf)
 
 ![Game picture](https://github.com/Apemonni/Tasohyppely-Platform-game/blob/master/GamePic.png)

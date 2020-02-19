@@ -1,13 +1,13 @@
-# Tasohyppely
+# Platform game
 
-## Esittely
- Tasohyppelypeli, jossa pelaaja ohjaa hahmoa kentän läpi hyppimällä tasojen päälle. Peli on toteutettu niin, että koko kenttä näkyy alusta asti näytöllä ja tavoitteena on päästä ylös vihreään maaliruutuun. 
+## Introduction
+A platform game in which player controls the game character through the game by jumping to the planes and avoiding enemies. The game is implemented so that the whole game area is visible from the start. The goal of the game is to reach the green square at the top of the game area.
 
-## Tiedosto- ja kansiorakenne
-Src-kansiosta löytyy kaikki tiedostot, joita tarvitaan ohjelman ajamiseeen. Juurihakemistosta löytyy README sekä suunnitelmat
+## File and folder structure
+Frome the Src folder can be found all files that are needed to build the program. Frome the root directory can be found README (English), plans and the report (both in Finnish).
 
-## Asennusohje
-PyQt-kirjasto on ainut ulkopuolinen kirjasto.
+## External libraries
+PyQt5 is the only external library that is needed to build the program.
 
-## Käyttöohje
-Main-tiedosto ajetaan src-kansiossa, jolloin peli-ikkunan pitäisi aueta.
+## Building instructions
+Opening and runing the main.py file in the Src folder starts the game.
